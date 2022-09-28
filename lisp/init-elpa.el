@@ -16,7 +16,6 @@
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
 
-(package-initialize)
 
 (provide 'init-elpa)
 ;;; init-elpa ends here

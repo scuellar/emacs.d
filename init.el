@@ -29,7 +29,14 @@
 ;; Rust
 (require 'init-rust)
 
+;; Python
+(require 'init-python)
 
+;; Coq
+(require 'init-coq)
+
+;; Latex
+(require 'init-latex)
 
 ;;Remember buffer history between sessions
 (savehist-mode 1)
@@ -44,12 +51,10 @@
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
  '(package-archives
-   (quote
-    (("gnu" . "https://elpa.gnu.org/packages/")
-     ("melpa" . "https://melpa.org/packages/"))))
+   '(("gnu" . "https://elpa.gnu.org/packages/")
+     ("melpa" . "https://melpa.org/packages/")))
  '(package-selected-packages
-   (quote
-    (company-racer go-stacktracer flycheck-rust flycheck racer company cargo rust-mode exec-path-from-shell haskell-mode)))
+   '(markdown-preview-mode markdown-toc company-coq proof-general company-racer go-stacktracer flycheck-rust flycheck racer company cargo rust-mode exec-path-from-shell haskell-mode))
  '(ring-bell-function nil)
  '(visible-bell t))
 (package-initialize)
@@ -81,3 +86,6 @@
 
 (provide '.emacs)
 ;;; init.el ends here
+(put 'narrow-to-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
