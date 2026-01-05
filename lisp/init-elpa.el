@@ -17,5 +17,16 @@
 	     '("melpa" . "https://melpa.org/packages/"))
 
 
+;; Refresh once if necessary
+(unless package-archive-contents
+  (package-refresh-contents))
+
+;; Ensure use-package itself is available
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+(require 'use-package)
+
+
 (provide 'init-elpa)
 ;;; init-elpa ends here

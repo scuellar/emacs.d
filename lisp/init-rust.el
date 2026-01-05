@@ -23,7 +23,7 @@
 (add-hook 'racer-mode-hook #'eldoc-mode)
 (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 (add-hook 'rust-mode-hook
-          '(lambda ()
+          #'(lambda ()
 	     (setq racer-rust-src-path (concat (getenv "HOME") "/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/library"))
              (local-set-key (kbd "TAB") #'company-indent-or-complete-common)
 	     (electric-pair-mode 1)))

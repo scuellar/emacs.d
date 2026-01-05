@@ -8,19 +8,37 @@
 ;; window that has the focus to have perfect size for editing.
 
 (require 'init-elpa)
-(require-package 'atom-one-dark-theme)
-(require-package 'golden-ratio)
 
+;; port of the Atom One Dark theme from
+;; Atom.io. https://github.com/jonathanchu/atom-one-dark-theme
+(require-package 'atom-one-dark-theme)
+
+;;  resizing automatically the windows you are working on to the size
+;;  specified in the "Golden Ratio".
+(require-package 'golden-ratio)
 (require 'golden-ratio)
+(golden-ratio-mode 1)
+
+;; Fancy UI packlage that looks like VScode
+;; https://emacs-lsp.github.io/lsp-ui/#lsp-ui
+(use-package lsp-ui)
 
 (setq inhibit-startup-message t)
-(menu-bar-mode -1)
+
+;; Disbale menu popups
+;;(menu-bar-mode -1)
+
+;; Remove GUI tool bar at top
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
+
+;; Remove GUI tool bar at topscroll bars
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
 
+;; Default font
 (set-face-attribute 'default nil :height 140)
+;; Defualt line spacing
 (setq-default line-spacing 0.4)
 
 (setq
@@ -32,11 +50,14 @@
 
 (load-theme 'atom-one-dark t)
 
+;; disable cursor blinking altogether
 (blink-cursor-mode 0)
+
+;; Cursor shap and color
 (setq-default cursor-type 'bar)
 (set-cursor-color "#cccccc")
-(setq ring-bell-function 'ignore)
 
-(golden-ratio-mode 1)
+;; No bell when end file and other
+(setq ring-bell-function 'ignore)
 
 (provide 'init-ui)

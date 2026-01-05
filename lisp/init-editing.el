@@ -1,7 +1,16 @@
+;;; package --- usefull settings to edit and search files
+;;; Commentary:
+;;; Many packages are loaded here
+;;; Code:
+(message "Initialising editing tools.")
+
+
 (require 'init-elpa)
 (require 'saveplace)
 (require-package 'rainbow-delimiters)
 (require-package 'flycheck)
+
+
 
 ;; Highlights matching parenthesis
 (show-paren-mode 1)
@@ -9,13 +18,32 @@
 ;; Highlight current line
 (global-hl-line-mode 1)
 
+;; Highlight trailing whitespaces, and auto delete trailing whitespace
+;; on save
+(setq-default show-trailing-whitespace t)
+(add-hook 'before-save-hook
+          'delete-trailing-whitespace)
+
+;; Always use spaces instead of tabs
+(setq-default indent-tabs-mode nil)
+
+;; Highlight lines above 80
+(require 'whitespace)
+(setq whitespace-line-column 80) ;; limit line length
+(setq whitespace-style '(face lines-tail))
+
+(add-hook 'prog-mode-hook 'whitespace-mode)
+
+
 ;; Interactive search key bindings. By default, C-s runs
 ;; isearch-forward, so this swaps the bindings.
+;; That is, default to using regex search
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "C-M-s") 'isearch-forward)
 (global-set-key (kbd "C-M-r") 'isearch-backward)
 
+;; Indent every time you press `'enter`'
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -42,5 +70,14 @@
 (global-set-key (kbd "C-;") 'toggle-comment-on-line)
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+;; Highlight specific keywords in source code `highlight-phrase`
+;; highlights specific patterns in the file.  The regex matches the
+;; keywords "BUG", "FIXME", "TODO", or "NOTE", followed by a colon.
+;; This is helpful to visually identify important annotations in
+;; source code.
+(add-hook 'find-file-hook  ;; `find-file-hook` is triggered whenever a file is opened.
+          (lambda ()       ;; Defines a lambda function to execute when a file is opened.
+            (highlight-phrase "\\(BUG\\|FIXME\\|TODO\\|NOTE\\):")))
 
 (provide 'init-editing)

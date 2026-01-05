@@ -1,23 +1,43 @@
 (require 'init-elpa)
 (require 'ido)
 (require 'recentf)
-(require-package 'ido-completing-read+)
 (require-package 'smex)
-(require-package 'projectile)
+
+(message "blah")
 
 (setq recentf-save-file (concat user-emacs-directory ".recentf"))
 (recentf-mode 1)
 (setq recentf-max-menu-items 40)
 
-
-;; Ido Mode
+;; Enable and configure IDO (Interactively Do Things) for improved
+;; minibuffer completion.  IDO replaces standard Emacs completion
+;; interfaces with smarter, interactive alternatives for things like
+;; finding files, switching buffers, and selecting items.
 (ido-mode t)
+;; Enable fuzzy matching. For example, typing "rb" can match
+;; "read-buffer".
 (setq ido-enable-flex-matching t)
+;; Don't pre-fill the minibuffer with a filename near the cursor. This
+;; keeps prompts cleaner.
 (setq ido-use-filename-at-point nil)
+;; Disable automatic merging of work directories when
+;; navigating. Prevents IDO from guessing paths across unrelated
+;; directories.
 (setq ido-auto-merge-work-directories-length -1)
+;; Include recently opened (but now closed) files and non-file buffers
+;; in IDO's buffer switcher.  This lets you quickly switch to files or
+;; buffers that aren't currently open, making buffer navigation feel
+;; more powerful and session-aware.
 (setq ido-use-virtual-buffers t)
 
-(ido-ubiquitous-mode 1)
+;; Extend IDO to work in all places Emacs uses `completing-read`,
+;; including many prompts from other packages. This is the modern
+;; replacement for `ido-ubiquitous-mode`.  If missing, needs to be
+;; installed: M-x package-install RET ido-completing-read+ RET
+(use-package ido-completing-read+
+  :ensure t
+  :config
+  )
 
 ;; Ido for recent files.
 (require 'recentf)
@@ -43,9 +63,17 @@
 (smex-initialize)
 (global-set-key (kbd "M-x") 'smex)
 
-(projectile-global-mode)
 
-;; Enable move point from window to window using Shift and the arrow keys
+;; Enable Projectile for project-aware navigation and file management.
+;; Useful keybindings: - C-c p f : Find file in project - C-c p p :
+;; Switch project - C-c p s g : Search in project (grep/ripgrep)
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1))
+
+;; Enable move point from window to window using Shift and the arrow
+;; keys
 (windmove-default-keybindings 'super)
 
 (provide 'init-navigation)
